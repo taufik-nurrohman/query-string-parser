@@ -45,7 +45,7 @@
                 return null;
             } else if (x.slice(0, 1) === "'" && x.slice(-1) === "'") {
                 return x.slice(1, -1);
-            } else if (/^((\d+)?\.)?\d+$/.test(x)) {
+            } else if (/^-?(\d*\.)?\d+$/.test(x) && x >= Number.MIN_SAFE_INTEGER && x <= Number.MAX_SAFE_INTEGER) {
                 return +x;
             } else if (maybe_json(x)) {
                 try {
