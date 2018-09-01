@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Query String Parser</title>
     <script src="q2o.js"></script>
+    <script src="o2q.js"></script>
   </head>
   <body>
     <h1>Query String Parser</h1>
@@ -33,6 +34,37 @@ var config = q2o('?foo=1&amp;bar=2');
 console.log(config); // {"foo":1,"bar":2}
 console.log(config.foo); // 1
 console.log(config.bar); // 2
+&lt;/script&gt;</code></pre>
+    <hr>
+    <h1>Object Serializer</h1>
+    <p>A function called <code>o2q</code>, to convert object into URL&rsquo;s query string is available <a href="o2q.min.js" target="_blank">here</a>.</p>
+    <h2>Usage</h2>
+    <pre><code>o2q(<var>object</var>, <var>separator = '&amp;'</var>, <var>deep = 1</var>, <var>include_false = false</var>);</code></pre>
+    <ul>
+      <li><var>object</var> &rarr; the object to be serialized</li>
+      <li><var>separator</var> &rarr; separator between key-value pairs</li>
+      <li><var>deep</var> &rarr; used to determine how deep is the object could be nested into a single key</li>
+      <li><var>include_false</var> &rarr; by default, any object with value <code>false</code> will be ignored</li>
+    </ul>
+    <pre style="background:black;color:white;padding:1em;"><code>&lt;script src="<a href="o2q.min.js" title="Download" target="_blank">o2q.min.js</a>"&gt;&lt;/script&gt;
+&lt;script&gt;
+var data = {
+        a: 'b',
+        c: 'd',
+        e: {
+            f: 'g',
+            h: 'i',
+            j: {
+                k: 'l',
+                m: 'n'
+            }
+        }
+    },
+    set_1 = o2q(data),
+    set_2 = o2q(data, '&', 2);
+
+console.log(set_1); // ?a=b&c=d&e[f]=g&e[h]=i&e[j]={"k":"l","m":"n"}
+console.log(set_2); // ?a=b&c=d&e[f]=g&e[h]=i&e[j][k]=l&e[j][m]=n
 &lt;/script&gt;</code></pre>
     <script>
     var result = document.getElementById('result');
