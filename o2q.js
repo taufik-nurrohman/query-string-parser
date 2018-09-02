@@ -27,6 +27,18 @@
             return x + "";
         }
 
+        function extend(a, b) {
+            b = b || {};
+            for (var i in a) {
+                if (!is_set(b[i])) {
+                    b[i] = a[i];
+                } else if (is_object(a[i]) && is_object(b[i])) {
+                    b[i] = extend(a[i], b[i]);
+                }
+            }
+            return b;
+        }
+
         function q(arr, key, depth, deep) {
             depth = depth || 0;
             var out = [],
@@ -34,12 +46,8 @@
             for (i in arr) {
                 k = encode(i);
                 v = arr[i];
-                if (is_object(v)) {
-                    if (depth < deep) {
-                        Object.assign(out, q(v, key + k + s + '%5B', depth + 1, deep));
-                    } else {
-                        out[key + k + s] = v;
-                    }
+                if (is_object(v) && depth < deep) {
+                    out = extend(out, q(v, key + k + s + '%5B', depth + 1, deep));
                 } else {
                     out[key + k + s] = v;
                 }
@@ -55,9 +63,9 @@
 
         for (k in arr) {
             v = arr[k];
-            if (v === false && !include_false) continue; // `['a' => 'false', 'b' => false]` → `a=false`
-            v = v !== true ? '=' + encode(str(v)) : ""; // `['a' => 'true', 'b' => true]` → `a=true&b`
-            out.push(k + v); // `['a' => 'null', 'b' => null]` → `a=null&b=null`
+            if (v === false && !include_false) continue; // `{"a":"false","b":false}` → `a=false`
+            v = v !== true ? '=' + encode(str(v)) : ""; // `{"a":"true","b":true}` → `a=true&b`
+            out.push(k + v); // `{"a":"null","b":null}` → `a=null&b=null`
         }
 
         return out.length ? '?' + out.join(separator || '&') : "";
