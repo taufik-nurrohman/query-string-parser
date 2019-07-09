@@ -1,6 +1,6 @@
 {
   "name": "q2o",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert URL’s query string into JavaScript object.",
   "main": "q2o.js",
   "scripts": {
