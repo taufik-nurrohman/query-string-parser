@@ -2,9 +2,35 @@
 <html dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
     <title>Query String Parser</title>
     <script src="q2o.js"></script>
     <script src="o2q.js"></script>
+    <style>
+    :root {
+      background: #fff;
+      color: #000;
+      font-family: serif;
+    }
+    a, code {
+      word-wrap: break-word;
+    }
+    code {
+      font-family: monospace;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    pre code {
+      display: block;
+      background: #eee;
+      padding: 1em;
+    }
+    #result {
+      background: #def;
+    }
+    </style>
   </head>
   <body>
     <h1>Query String Parser</h1>
@@ -20,14 +46,14 @@
       <li><a href="?foo=bar&amp;bar[0]=1&amp;bar[1]=2&amp;bar[2]=3">?foo=bar&amp;bar[0]=1&amp;bar[1]=2&amp;bar[2]=3</a></li>
     </ul>
     <h3>Output</h3>
-    <pre style="background:salmon;color:white;padding:1em;"><code id="result">Please visit one of the links above!</code></pre>
+    <pre><code id="result">Please visit one of the links above!</code></pre>
     <h2>Usage</h2>
     <pre><code>q2o(<var>query</var>, <var>eval = true</var>);</code></pre>
     <ul>
       <li><var>query</var> &rarr; the query string</li>
       <li><var>eval</var> &rarr; automatically evaluate the string value to their appropriate data type/format?</li>
     </ul>
-    <pre style="background:black;color:white;padding:1em;"><code>&lt;script src="<a href="q2o.min.js" title="Download" target="_blank">q2o.min.js</a>"&gt;&lt;/script&gt;
+    <pre><code>&lt;script src="<a href="q2o.min.js" title="Download" target="_blank">q2o.min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
 var config = q2o('?foo=1&amp;bar=2');
 
@@ -46,7 +72,7 @@ console.log(config.bar); // 2
       <li><var>deep</var> &rarr; used to determine how deep is the object could be nested into a single key</li>
       <li><var>include_false</var> &rarr; by default, any object with value <code>false</code> will be ignored</li>
     </ul>
-    <pre style="background:black;color:white;padding:1em;"><code>&lt;script src="<a href="o2q.min.js" title="Download" target="_blank">o2q.min.js</a>"&gt;&lt;/script&gt;
+    <pre><code>&lt;script src="<a href="o2q.min.js" title="Download" target="_blank">o2q.min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
 var data = {
         a: 'b',
