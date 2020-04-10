@@ -1,7 +1,7 @@
 {
   "name": "@taufik-nurrohman/query-string-parser",
   "description": "Convert URL’s query string into JavaScript object.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "q2o.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

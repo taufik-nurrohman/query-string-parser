@@ -1,42 +1,30 @@
-/*! <https://github.com/tovic/query-string-parser> */
+/*! <https://github.com/taufik-nurrohman/query-string-parser> */
 (function(win, NS) {
 
-    function object_serialize(x, separator, deep, include_false) {
+    function doSerializeObject(x, separator, deep, includeFalseAndNullValue) {
 
         function encode(x) {
             return encodeURIComponent(x);
         }
 
-        function is_set(x) {
-            return typeof x !== "undefined";
+        function isSet(x) {
+            return 'undefined' !== typeof x;
         }
 
-        function is_string(x) {
-            return typeof x === "string";
+        function isString(x) {
+            return 'string' === typeof x;
         }
 
-        function is_object(x) {
-            return x !== null && typeof x === "object";
+        function isObject(x) {
+            return null !== x && 'object' === typeof x;
         }
 
-        function str(x) {
-            if (x === true) return 'true';
-            if (x === false) return 'false';
-            if (x === null) return 'null';
-            if (is_object(x)) return JSON.stringify(x);
+        function toString(x) {
+            if (true === x) return 'true';
+            if (false === x) return 'false';
+            if (null === x) return 'null';
+            if (isObject(x)) return JSON.stringify(x);
             return x + "";
-        }
-
-        function extend(a, b) {
-            b = b || {};
-            for (var i in a) {
-                if (!is_set(b[i])) {
-                    b[i] = a[i];
-                } else if (is_object(a[i]) && is_object(b[i])) {
-                    b[i] = extend(a[i], b[i]);
-                }
-            }
-            return b;
         }
 
         function q(arr, key, depth, deep) {
@@ -46,8 +34,8 @@
             for (i in arr) {
                 k = encode(i);
                 v = arr[i];
-                if (is_object(v) && depth < deep) {
-                    out = extend(out, q(v, key + k + s + '%5B', depth + 1, deep));
+                if (isObject(v) && depth < deep) {
+                    out = Object.assign(out, q(v, key + k + s + '%5B', depth + 1, deep));
                 } else {
                     out[key + k + s] = v;
                 }
@@ -63,15 +51,20 @@
 
         for (k in arr) {
             v = arr[k];
-            if (v === false && !include_false) continue; // `{"a":"false","b":false}` → `a=false`
-            v = v !== true ? '=' + encode(str(v)) : ""; // `{"a":"true","b":true}` → `a=true&b`
-            out.push(k + v); // `{"a":"null","b":null}` → `a=null&b=null`
+            if ((
+                false === v ||
+                null === v
+            ) && !includeFalseAndNullValue) {
+                continue; // `{"a":"false","b":false,"c":"null","d":null}` → `a=false&c=null`
+            }
+            v = true !== v ? '=' + encode(toString(v)) : ""; // `{"a":"true","b":true}` → `a=true&b`
+            out.push(k + v);
         }
 
         return out.length ? '?' + out.join(separator || '&') : "";
 
     }
 
-    win[NS] = object_serialize;
+    win[NS] = doSerializeObject;
 
 })(window, 'o2q');

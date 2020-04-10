@@ -1,44 +1,44 @@
-/*! <https://github.com/tovic/query-string-parser> */
+/*! <https://github.com/taufik-nurrohman/query-string-parser> */
 (function(win, NS) {
 
-    function query_eval(x, eval) {
+    function doQueryEval(x, evaluate, separator) {
 
         function decode(x) {
             return decodeURIComponent(x);
         }
 
-        function is_set(x) {
-            return typeof x !== "undefined";
+        function isSet(x) {
+            return 'undefined' !== typeof x;
         }
 
-        function is_string(x) {
-            return typeof x === "string";
+        function isString(x) {
+            return 'string' === typeof x;
         }
 
-        function is_object(x) {
-            return x !== null && typeof x === "object";
+        function isObject(x) {
+            return null !== x && 'object' === typeof x;
         }
 
-        function maybe_json(x) {
-            if (!is_string(x) || x.trim() === "") {
+        function mayBeJSON(x) {
+            if (!isString(x) || "" === x.trim()) {
                 return false;
             }
             return (
                 // Maybe an empty string, array or object
-                x === '""' ||
-                x === '[]' ||
-                x === '{}' ||
+                '""' === x ||
+                '[]' === x ||
+                '{}' === x ||
                 // Maybe an encoded JSON string
-                x[0] === '"' && x.slice(-1) === '"' ||
+                '"' === x[0] && '"' === x.slice(-1) ||
                 // Maybe a numeric array
-                x[0] === '[' && x.slice(-1) === ']' ||
+                '[' === x[0] && ']' === x.slice(-1) ||
                 // Maybe an associative array
-                x[0] === '{' && x.slice(-1) === '}'
+                '{' === x[0] && '}' === x.slice(-1)
             );
         }
 
-        function str_eval(x) {
-            if (is_string(x)) {
+        function toValue(x) {
+            if (isString(x)) {
                 if (x === 'true') {
                     return true;
                 } else if (x === 'false') {
@@ -49,7 +49,7 @@
                     return x.slice(1, -1);
                 } else if (/^-?(\d*\.)?\d+$/.test(x)) {
                     return +x;
-                } else if (maybe_json(x)) {
+                } else if (mayBeJSON(x)) {
                     try {
                         return JSON.parse(x);
                     } catch (e) {}
@@ -70,17 +70,17 @@
         var out = {},
             part = x.replace(/^.*?\?/, "");
 
-        if (part === "") {
+        if ("" === part) {
             return out;
         }
 
-        part.split(/&(?:amp;)?/).forEach(function(v) {
+        part.split(new RegExp('[' + (separator || '&') + ']')).forEach(function(v) {
             var a = v.split('='),
                 key = decode(a[0]),
-                value = is_set(a[1]) ? decode(a[1]) : true;
-            value = !is_set(eval) || eval ? str_eval(value) : value;
+                value = isSet(a[1]) ? decode(a[1]) : true;
+            value = !isSet(evaluate) || evaluate ? toValue(value) : value;
             // `a[b]=c`
-            if (key.slice(-1) === ']') {
+            if (']' === key.slice(-1)) {
                 query(out, key, value);
             // `a=b`
             } else {
@@ -92,6 +92,6 @@
 
     }
 
-    win[NS] = query_eval;
+    win[NS] = doQueryEval;
 
 })(window, 'q2o');

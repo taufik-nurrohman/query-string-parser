@@ -22,10 +22,11 @@
     <h3>Output</h3>
     <pre style="background:salmon;color:white;padding:1em;"><code id="result">Please visit one of the links above!</code></pre>
     <h2>Usage</h2>
-    <pre><code>q2o(<var>query</var>, <var>eval = true</var>);</code></pre>
+    <pre><code>q2o(<var>query</var>, <var>evaluate = true</var>, <var>separator = '&'</var>);</code></pre>
     <ul>
-      <li><var>query</var> &rarr; the query string</li>
-      <li><var>eval</var> &rarr; automatically evaluate the string value to their appropriate data type/format?</li>
+      <li><var>query</var> &rarr; The query string.</li>
+      <li><var>evaluate</var> &rarr; Automatically evaluate the string value to their appropriate data type/format?</li>
+      <li><var>separator</var> &rarr; The query string separator.</li>
     </ul>
     <pre style="background:black;color:white;padding:1em;"><code>&lt;script src="<a href="q2o.min.js" title="Download" target="_blank">q2o.min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
@@ -39,12 +40,12 @@ console.log(config.bar); // 2
     <h1>Object Serializer</h1>
     <p>A function called <code>o2q</code>, to convert object into URL&rsquo;s query string is available <a href="o2q.min.js" target="_blank">here</a>.</p>
     <h2>Usage</h2>
-    <pre><code>o2q(<var>object</var>, <var>separator = '&amp;'</var>, <var>deep = 1</var>, <var>include_false = false</var>);</code></pre>
+    <pre><code>o2q(<var>object</var>, <var>separator = '&amp;'</var>, <var>deep = 1</var>, <var>includeFalseAndNullValue = false</var>);</code></pre>
     <ul>
-      <li><var>object</var> &rarr; the object to be serialized</li>
-      <li><var>separator</var> &rarr; separator between key-value pairs</li>
-      <li><var>deep</var> &rarr; used to determine how deep is the object could be nested into a single key</li>
-      <li><var>include_false</var> &rarr; by default, any object with value <code>false</code> will be ignored</li>
+      <li><var>object</var> &rarr; The object to be serialized.</li>
+      <li><var>separator</var> &rarr; Separator between key-value pairs.</li>
+      <li><var>deep</var> &rarr; Used to determine how deep is the object could be nested into a single key.</li>
+      <li><var>includeFalseAndNullValue</var> &rarr; By default, any object with value <code>false</code> and <code>null</code> will be ignored.</li>
     </ul>
     <pre style="background:black;color:white;padding:1em;"><code>&lt;script src="<a href="o2q.min.js" title="Download" target="_blank">o2q.min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
